@@ -27,4 +27,8 @@
 			</roles>
 		</developer>
 	</developers>
+	<modules>
+		<module>finance-mvc</module>
+		<module>finance-ui</module>
+	</modules>
 </project>
