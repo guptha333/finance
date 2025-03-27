@@ -1,0 +1,115 @@
+# Step-by-Step Guide for Setting Up a Maven & React Project
+
+## 1. Modify the `.npmrc` File
+Comment out the following lines in the `.npmrc` file located in the home folder:
+```
+#registry=http://your-nexus-repo/repository/npm-group/
+#always-auth=true
+```
+
+## 2. Replace `settings.xml`
+Replace the existing `settings.xml` file with the default `settings.xml` file provided in the folder.
+
+## 3. Create a New Workspace Folder
+Create a new folder in the workspace for the project.
+
+## 4. Import Folder into Eclipse Workspace
+Import the newly created folder into the Eclipse workspace.
+
+## 5. Convert Folder to a Maven Project
+- Right-click the folder in Eclipse.
+- Convert it to a Maven project.
+- Select `POM` as the packaging type.
+
+## 6. Creating a Spring Boot Project
+### Steps to Create a Maven Module Project:
+1. Click `Next` → Check **Create a simple project**.
+2. Enter the module name → Click `Next`.
+3. (Optional) Rename Group ID.
+4. Select packaging type:
+   - **POM** (for UI projects)
+   - **WAR** (for backend projects)
+5. Enter Project Name and Description → Click `Finish`.
+
+## 7. Creating a React Application
+### Steps:
+1. Navigate to the desired folder location.
+2. Run the following command:
+   ```sh
+   npx create-react-app {project-name}
+   ```
+3. Import the React project into the Eclipse workspace.
+4. Convert it into a Maven project, selecting `POM` as the packaging type.
+
+## 8. React Configuration for Build
+### Add Plugin to `pom.xml` of UI Module:
+The `frontend-maven-plugin` from `com.github.eirslett` integrates Node.js, NPM, and frontend build tools into a Maven project.
+```xml
+<plugin>
+    <groupId>com.github.eirslett</groupId>
+    <artifactId>frontend-maven-plugin</artifactId>
+    <version>1.11.3</version>
+    <executions>
+        <!-- Install Node.js and NPM -->
+        <execution>
+            <id>install-node-and-npm</id>
+            <goals>
+                <goal>install-node-and-npm</goal>
+            </goals>
+            <configuration>
+                <nodeVersion>v18.17.0</nodeVersion>
+                <npmVersion>9.6.7</npmVersion>
+            </configuration>
+        </execution>
+
+        <!-- Install dependencies using NPM -->
+        <execution>
+            <id>npm-install</id>
+            <goals>
+                <goal>npm</goal>
+            </goals>
+            <configuration>
+                <arguments>install</arguments>
+            </configuration>
+        </execution>
+
+        <!-- Run the frontend build script -->
+        <execution>
+            <id>npm-build</id>
+            <goals>
+                <goal>npm</goal>
+            </goals>
+            <configuration>
+                <arguments>run build</arguments>
+            </configuration>
+        </execution>
+    </executions>
+</plugin>
+```
+
+## 9. Modify `package.json`
+Replace the following content:
+### Original:
+```json
+"scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+}
+```
+### Updated:
+```json
+"scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "copy-assets": "cp -R build/* ../mvc/src/main/resources/static/",
+    "build:app": "rm -rf node_modules/ package-lock.json && rm -rf build/ && rm -rf ../mvc/src/main/resources/static/* && npm i --no-audit && npm run build && npm run copy-assets"
+}
+```
+
+## 10. Spring Boot Application Configuration
+- Create a `static` folder inside `src/main/resources`.
+- The built React project will be moved to this folder after the build process.

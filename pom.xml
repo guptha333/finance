@@ -1,0 +1,34 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.4.3</version>
+	</parent>
+
+	<groupId>com.finance</groupId>
+	<artifactId>finance</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>Finance</name>
+	<description>Finance Project for UI and MVC</description>
+
+	<developers>
+		<developer>
+			<name>Yelgoi Sandeep Guptha</name>
+			<email>ysandeepguptha3@gmail.com</email>
+			<roles>
+				<role>Developer</role>
+				<role>Architect</role>
+				<role>Tester</role>
+			</roles>
+		</developer>
+	</developers>
+	<modules>
+		<module>finance-mvc</module>
+		<module>finance-ui</module>
+	</modules>
+</project>
